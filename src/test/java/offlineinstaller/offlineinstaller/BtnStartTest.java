@@ -34,7 +34,8 @@ public class BtnStartTest extends Button implements EventHandler<ActionEvent> {
 				Runtime runtime = Runtime.getRuntime();
 				try {
 					path = PropertiesLoaderTest.getInstallerPath();
-					path = "cmd /c start cmd.exe /K \"dir && cd C:\\Users\\Administrator\\Downloads\\wusus\\cmd && dir && doUpdate.cmd\""; 
+//					path = "cmd /c start cmd.exe /K \"dir && cd C:\\Users\\Administrator\\Downloads\\wsus\\cmd\\ && doUpdate.cmd\"";
+//					path = "cmd /c start cmd.exe /K \"dir && cd C:\\Users\\Administrator\\Downloads\\wsus\\cmd\\doUpdate.cmd\"";
 					Runtime.getRuntime().exec(path);
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -47,5 +48,5 @@ public class BtnStartTest extends Button implements EventHandler<ActionEvent> {
 			if (dialogReturnValue == 1) {
 				logger.info("No was pressed " + dialogReturnValue);
 			}
-		}
+	}
 	}

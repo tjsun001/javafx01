@@ -18,7 +18,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application implements EventHandler<ActionEvent>{
-	final static Logger logger = Logger.getLogger(MainTest.class);
+	final static Logger logger = Logger.getLogger(Main.class);
 
 	/**
 	 * @param args

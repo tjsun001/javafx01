@@ -3,6 +3,12 @@
   <groupId>JavaFX01</groupId>
   <artifactId>JavaFX01</artifactId>
   <version>0.0.1-SNAPSHOT</version>
+  <name>JavaFX01-0.0.1-SNAPSHOT</name>
+  
+  <properties>
+		<jdk.version>1.8</jdk.version>
+  </properties>
+  
   <dependencies>
   	<dependency>
   		<groupId>log4j</groupId>
@@ -15,8 +21,41 @@
   		<version>2.6</version>
   	</dependency>
   </dependencies>
-  <properties>
-  	<maven.compiler.source>1.7</maven.compiler.source>
-  	<maven.compiler.target>1.7</maven.compiler.target>
-  </properties>
+  <build>
+    <plugins>
+      <!-- Maven Shade Plugin -->
+		<plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-shade-plugin</artifactId>
+		  <version>2.3</version>
+		  <executions>
+		     <!-- Run shade goal on package phase -->
+		    <execution>
+			<phase>package</phase>
+			<goals>
+				<goal>shade</goal>
+			</goals>
+			<configuration>
+			  <transformers>
+				<!-- add Main-Class to manifest file -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+					<mainClass>offlineinstaller.offineinstaller.Main</mainClass>
+				</transformer>
+			  </transformers>
+			</configuration>
+		      </execution>
+		  </executions>
+		</plugin>
+		<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+				</configuration>
+			</plugin>
+    </plugins>
+  </build>
+  
 </project>
