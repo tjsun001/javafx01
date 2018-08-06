@@ -20,6 +20,7 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 	final static Logger logger = Logger.getLogger(BtnStart.class);
 	public int dialogReturnValue;
 	private String path;
+	@SuppressWarnings("restriction")
 	public void handle(ActionEvent event) {
 			
 			logger.info("Start button was clicked");

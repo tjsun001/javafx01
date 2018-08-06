@@ -1,14 +1,6 @@
 package offlineinstaller.offlineinstaller;
 import java.io.IOException;
-import java.util.Optional;
-
 import org.apache.log4j.Logger;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Alert.AlertType;
 
 public class AutoRestart{
 	
@@ -17,16 +9,17 @@ public class AutoRestart{
 		this.autoRestartOption = autoRestart;
 	}
 
-	final static Logger logger = Logger.getLogger(BtnStart.class);
+	final static Logger logger = Logger.getLogger(AutoRestart.class);
 	public int dialogReturnValue;
 	private String path;
 	boolean autoRestartOption = false;
+	Runtime runtime ;
 	
 	public void restart() {
 			
 			logger.info("Starting the AutoRestart part");
 			
-				Runtime runtime = Runtime.getRuntime();
+				runtime = Runtime.getRuntime();
 				try {
 					path = PropertiesLoader.getAutoRestartPath();
 					Runtime.getRuntime().exec(path);
