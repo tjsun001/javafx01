@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.scene.control.CheckBox;
 
 public class Main extends Application implements EventHandler<ActionEvent>{
 	final static Logger logger = Logger.getLogger(Main.class);
@@ -25,9 +26,12 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	 */
 	Button btnStart;
 	Button btnExit;
+	CheckBox checkBoxAutoRestart;
 	Scene scene;
 	Stage primaryStage;
 	int dialogReturnValue;
+	boolean autoRestartOption = false;
+	AutoRestart autoRestart;
 	public static void main(String[] args) {
 		launch(args);
 
@@ -41,19 +45,24 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		
 		btnStart = new Button();
 		btnStart.setText("Start");
-		btnStart.setLayoutY(100);
 		btnStart.setLayoutX(10);
+		btnStart.setLayoutY(60);
 		btnStart.setOnAction(this);
 			
 		btnExit = new Button();
 		btnExit.setText("Exit");
-		btnExit.setLayoutX(200);
-		btnExit.setLayoutY(100);
+		btnExit.setLayoutX(75);
+		btnExit.setLayoutY(60);
 		btnExit.setOnAction(this);
+		
+		checkBoxAutoRestart = new CheckBox("Auto Restart");
+		checkBoxAutoRestart.setLayoutX(10);
+		checkBoxAutoRestart.setLayoutY(120);
 		
 		Pane layout = new Pane();
 		layout.getChildren().add(btnStart);
 		layout.getChildren().add(btnExit);
+		layout.getChildren().add(checkBoxAutoRestart);
 		
 		scene = new Scene(layout,400,200);
 		primaryStage.setScene(scene);
@@ -68,7 +77,18 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		switch (whichButton) {
 		case "Start":
 			
+			
 			btnStart = new BtnStart(event);
+			
+			if (checkBoxAutoRestart.isSelected()) {
+				autoRestartOption = true;
+				autoRestart = new AutoRestart(autoRestartOption);
+				autoRestart.restart();
+			}
+			else {
+				autoRestartOption = false;
+			}
+			logger.info("Auto Restart = " + autoRestartOption );			
 		
 			break;
 			

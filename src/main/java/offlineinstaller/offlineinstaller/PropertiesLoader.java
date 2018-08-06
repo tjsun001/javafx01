@@ -10,12 +10,12 @@ public class PropertiesLoader {
 	private static Properties properties;
 	public static String installerPath;
 	final static Logger logger = Logger.getLogger(PropertiesLoader.class);
+	static InputStream input = PropertiesLoader.class.getClassLoader().getResourceAsStream("config.properties");
 	
 	public static String getInstallerPath() {
 		
 		properties = new Properties();
 		try {
-			InputStream input = PropertiesLoader.class.getClassLoader().getResourceAsStream("config.properties");
 			properties.load(input);
 			installerPath = properties.getProperty("installerPath");
 			return installerPath;
@@ -24,5 +24,16 @@ public class PropertiesLoader {
 		}
 		return null;
 	}
-
+public static String getAutoRestartPath() {
+		
+		properties = new Properties();
+		try {
+			properties.load(input);
+			installerPath = properties.getProperty("autoRestartPath");
+			return installerPath;
+		} catch (IOException  e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
