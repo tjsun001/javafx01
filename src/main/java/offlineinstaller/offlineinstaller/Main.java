@@ -3,6 +3,8 @@ package offlineinstaller.offlineinstaller;
  * 
  */
 
+import java.io.File;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -17,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 
 public class Main extends Application implements EventHandler<ActionEvent>{
 	final static Logger logger = Logger.getLogger(Main.class);
@@ -33,6 +36,9 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	boolean autoRestartOption = false;
 	boolean executionStatus;
 	AutoRestart autoRestart;
+	TextField txtFieldWSUSHome ;
+	String WSUSHomePath ;
+	boolean pathDoesExist;
 	public static void main(String[] args) {
 		launch(args);
 
@@ -43,6 +49,14 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		logger.info("this is start of start method");
 		primaryStage.setTitle("Offline Installer");
 		this.primaryStage = primaryStage;
+		
+		txtFieldWSUSHome = new TextField();
+		txtFieldWSUSHome.setText("Enter WSUSHome    exampe:(c:\\Users\\Administrator\\Downloads\\wsus)");
+		txtFieldWSUSHome.setPrefColumnCount(35);
+		
+		txtFieldWSUSHome.setLayoutX(10);
+		txtFieldWSUSHome.setLayoutY(25);
+		txtFieldWSUSHome.setOnAction(this);
 		
 		btnStart = new BtnStart();
 		btnStart.setText("Start");
@@ -64,6 +78,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		layout.getChildren().add(btnStart);
 		layout.getChildren().add(btnExit);
 		layout.getChildren().add(checkBoxAutoRestart);
+		layout.getChildren().add(txtFieldWSUSHome);
 		
 		scene = new Scene(layout,400,200);
 		primaryStage.setScene(scene);
@@ -79,7 +94,20 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		case "Start":
 			
 			
-			btnStart = new BtnStart(event);		
+			WSUSHomePath = txtFieldWSUSHome.getText() ;
+			if (WSUSHomePath == null || WSUSHomePath.isEmpty()) {
+				txtFieldWSUSHome.setText("Please enter path to WSUS home directory");
+				break;
+			}else {
+				
+				pathDoesExist = checkWSUSHomePath(); 
+				if (pathDoesExist) {
+					btnStart = new BtnStart(event);													
+				}else {
+					txtFieldWSUSHome.setText("Please enter a valid path to WSUS home directory");
+					break;
+				}
+			}	
 			executionStatus = btnStart.getExecutionStatus();
 			
 			if (executionStatus) {
@@ -94,8 +122,6 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 			btnExit = new BtnExit(event,primaryStage);
 			break;
 		}
-		
-
 	}
 	public void checkAutoRestart() {
 		if (checkBoxAutoRestart.isSelected()) {
@@ -109,4 +135,13 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		logger.info("Auto Restart = " + autoRestartOption );
 		
 	}
+	public boolean checkWSUSHomePath() {
+		
+		File file = new File("C:\\Users\\Administrator\\Downloads\\wsus\\cmd\\DoUpdate.cmd");
+		if (file.exists()) {
+			return true;
+		}else{
+			return false;
+			}
+		}
 }
