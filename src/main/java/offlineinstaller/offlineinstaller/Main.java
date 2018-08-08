@@ -24,13 +24,14 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	/**
 	 * @param args
 	 */
-	Button btnStart;
-	Button btnExit;
+	BtnStart btnStart;
+	BtnExit btnExit;
 	CheckBox checkBoxAutoRestart;
 	Scene scene;
 	Stage primaryStage;
 	int dialogReturnValue;
 	boolean autoRestartOption = false;
+	boolean executionStatus;
 	AutoRestart autoRestart;
 	public static void main(String[] args) {
 		launch(args);
@@ -43,13 +44,13 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		primaryStage.setTitle("Offline Installer");
 		this.primaryStage = primaryStage;
 		
-		btnStart = new Button();
+		btnStart = new BtnStart();
 		btnStart.setText("Start");
 		btnStart.setLayoutX(10);
 		btnStart.setLayoutY(60);
 		btnStart.setOnAction(this);
 			
-		btnExit = new Button();
+		btnExit = new BtnExit();
 		btnExit.setText("Exit");
 		btnExit.setLayoutX(75);
 		btnExit.setLayoutY(60);
@@ -78,17 +79,12 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		case "Start":
 			
 			
-			btnStart = new BtnStart(event);
+			btnStart = new BtnStart(event);		
+			executionStatus = btnStart.getExecutionStatus();
 			
-			if (checkBoxAutoRestart.isSelected()) {
-				autoRestartOption = true;
-				autoRestart = new AutoRestart(autoRestartOption);
-				autoRestart.restart();
-			}
-			else {
-				autoRestartOption = false;
-			}
-			logger.info("Auto Restart = " + autoRestartOption );			
+			if (executionStatus) {
+//				checkAutoRestart();
+			}			
 		
 			break;
 			
@@ -98,6 +94,19 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 			btnExit = new BtnExit(event,primaryStage);
 			break;
 		}
+		
 
+	}
+	public void checkAutoRestart() {
+		if (checkBoxAutoRestart.isSelected()) {
+			autoRestartOption = true;
+			autoRestart = new AutoRestart(autoRestartOption);
+			autoRestart.restart();
+		}
+		else {
+			autoRestartOption = false;
+		}
+		logger.info("Auto Restart = " + autoRestartOption );
+		
 	}
 }

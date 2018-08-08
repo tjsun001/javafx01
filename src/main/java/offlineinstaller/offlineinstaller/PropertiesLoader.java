@@ -26,14 +26,7 @@ public class PropertiesLoader {
 	}
 public static String getAutoRestartPath() {
 		
-		properties = new Properties();
-		try {
-			properties.load(input);
-			installerPath = properties.getProperty("autoRestartPath");
-			return installerPath;
-		} catch (IOException  e) {
-			e.printStackTrace();
-		}
-		return null;
+					installerPath = properties.getProperty("autoRestartPath");
+					return installerPath;
 	}
 }

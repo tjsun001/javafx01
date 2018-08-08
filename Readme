@@ -6,7 +6,7 @@ Build Instructions
 
 
 Execution Instructions
-	run this command: java -cp JavaFX01-0.0.1-SNAPSHOT.jar offlineinstaller.offlineinstaller.Main
+	run this command: java -cp JavaFX01-0.0.1-SNAPSHOT.jar;jfxrt.jar offlineinstaller.offlineinstaller.Main
 	make sure the jar file is in the same directory that you run the offlineinstaller.offlineinstaller.Main command or make sure
 	you can point to a directory that contains the jar file for example :
 		java -cp C:\Users\Administrator\Downloads\JavaFX01\target\JavaFX01-0.0.1-SNAPSHOT.jar offlineinstaller.offlineinstaller.Main 
