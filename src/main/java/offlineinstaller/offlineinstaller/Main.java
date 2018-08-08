@@ -20,6 +20,8 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Main extends Application implements EventHandler<ActionEvent>{
 	final static Logger logger = Logger.getLogger(Main.class);
@@ -51,36 +53,51 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		this.primaryStage = primaryStage;
 		
 		txtFieldWSUSHome = new TextField();
-		txtFieldWSUSHome.setText("Enter WSUSHome    exampe:(c:\\Users\\Administrator\\Downloads\\wsus)");
+		txtFieldWSUSHome.setText("Please Enter path to WSUSHome  exp:(c:\\Users\\Administrator\\Downloads\\wsus)");
 		txtFieldWSUSHome.setPrefColumnCount(35);
 		
-		txtFieldWSUSHome.setLayoutX(10);
-		txtFieldWSUSHome.setLayoutY(25);
+		txtFieldWSUSHome.setLayoutX(60);
+		txtFieldWSUSHome.setLayoutY(200);
 		txtFieldWSUSHome.setOnAction(this);
+		txtFieldWSUSHome.setPrefColumnCount(35);
 		
+ 		
 		btnStart = new BtnStart();
 		btnStart.setText("Start");
-		btnStart.setLayoutX(10);
-		btnStart.setLayoutY(60);
+		btnStart.setLayoutX(150);
+		btnStart.setLayoutY(250);
 		btnStart.setOnAction(this);
 			
 		btnExit = new BtnExit();
 		btnExit.setText("Exit");
-		btnExit.setLayoutX(75);
-		btnExit.setLayoutY(60);
+		btnExit.setLayoutX(215);
+		btnExit.setLayoutY(250);
 		btnExit.setOnAction(this);
 		
 		checkBoxAutoRestart = new CheckBox("Auto Restart");
-		checkBoxAutoRestart.setLayoutX(10);
-		checkBoxAutoRestart.setLayoutY(120);
+		checkBoxAutoRestart.setLayoutX(275);
+		checkBoxAutoRestart.setLayoutY(250);
 		
+		Image image = new Image(new File("FPS_logo_2018.png").toURI().toString());
+		ImageView imageView = new ImageView(image);
+	
+		imageView.setLayoutX(175);
+		imageView.setLayoutY(30);
+		imageView.setFitHeight(150);
+		imageView.setFitWidth(150);
+				
 		Pane layout = new Pane();
 		layout.getChildren().add(btnStart);
 		layout.getChildren().add(btnExit);
 		layout.getChildren().add(checkBoxAutoRestart);
 		layout.getChildren().add(txtFieldWSUSHome);
+		layout.getChildren().add(imageView);
 		
-		scene = new Scene(layout,400,200);
+		scene = new Scene(layout,500,400);
+//		javafx.scene.image.Image image = new javafx.scene.image.Image(getClass().getResource("FPS_logo_2018.png").toExternalForm());
+		
+		primaryStage.getIcons().add(image);
+		primaryStage.setTitle("OfflineInstaller");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
