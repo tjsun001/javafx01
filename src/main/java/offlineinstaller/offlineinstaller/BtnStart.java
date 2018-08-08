@@ -9,14 +9,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 //import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-//import javafx.scene.control.ButtonType;
-//import javafx.scene.control.Alert.AlertType;
 
 public class BtnStart extends Button implements EventHandler<ActionEvent> {
 	
 	public BtnStart(ActionEvent event, String wsusPath)
 	{	
-		this.wsusHomePath = construckHomePath(wsusPath);
+		this.wsusHomePath = constructHomePath(wsusPath);
 		handle(event);
 	}
 
@@ -36,7 +34,6 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 			dialogReturnValue = JOptionPane.showConfirmDialog(null, "Are you sure you want to Start ?", "Start", JOptionPane.YES_NO_OPTION);
 			if (dialogReturnValue == 0){
 				logger.info("Yes was pressed ");
-				Runtime runtime = Runtime.getRuntime();
 				try {
 					Runtime.getRuntime().exec(wsusHomePath);
 					executionStatus = true;
@@ -60,7 +57,7 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 		executionStatus = status;
 		
 	}
-	public String construckHomePath(String wsusHomePath) {
+	public String constructHomePath(String wsusHomePath) {
 		wsusHomePath = "cmd /c start cmd.exe /K " + wsusHomePath + "\\cmd\\doUpdate.cmd";
 		return wsusHomePath;
 	}
