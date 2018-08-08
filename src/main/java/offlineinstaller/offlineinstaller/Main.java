@@ -37,7 +37,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	boolean executionStatus;
 	AutoRestart autoRestart;
 	TextField txtFieldWSUSHome ;
-	String WSUSHomePath ;
+	String wsusHomePath ;
 	boolean pathDoesExist;
 	public static void main(String[] args) {
 		launch(args);
@@ -94,15 +94,15 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		case "Start":
 			
 			
-			WSUSHomePath = txtFieldWSUSHome.getText() ;
-			if (WSUSHomePath == null || WSUSHomePath.isEmpty()) {
+			wsusHomePath = txtFieldWSUSHome.getText() ;
+			if (wsusHomePath == null || wsusHomePath.isEmpty()) {
 				txtFieldWSUSHome.setText("Please enter path to WSUS home directory");
 				break;
 			}else {
 				
-				pathDoesExist = checkWSUSHomePath(); 
+				pathDoesExist = checkWSUSHomePath(wsusHomePath); 
 				if (pathDoesExist) {
-					btnStart = new BtnStart(event);													
+					btnStart = new BtnStart(event, wsusHomePath);													
 				}else {
 					txtFieldWSUSHome.setText("Please enter a valid path to WSUS home directory");
 					break;
@@ -135,9 +135,10 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		logger.info("Auto Restart = " + autoRestartOption );
 		
 	}
-	public boolean checkWSUSHomePath() {
+	public boolean checkWSUSHomePath(String wsusHomePath) {
 		
-		File file = new File("C:\\Users\\Administrator\\Downloads\\wsus\\cmd\\DoUpdate.cmd");
+		File file = new File(wsusHomePath);
+//		File file = new File("C:\\Users\\Administrator\\Downloads\\wsus\\cmd\\DoUpdate.cmd");
 		if (file.exists()) {
 			return true;
 		}else{

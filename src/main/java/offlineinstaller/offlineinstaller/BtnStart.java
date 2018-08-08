@@ -14,19 +14,21 @@ import javafx.scene.control.Button;
 
 public class BtnStart extends Button implements EventHandler<ActionEvent> {
 	
-	public BtnStart(ActionEvent event)
-	{
+	public BtnStart(ActionEvent event, String wsusPath)
+	{	
+		this.wsusHomePath = construckHomePath(wsusPath);
 		handle(event);
 	}
 
-	public BtnStart() {
+	public BtnStart() {	
 		// TODO Auto-generated constructor stub
 	}
 
 	final static Logger logger = Logger.getLogger(BtnStart.class);
 	public int dialogReturnValue;
-	private String path;
 	private boolean executionStatus = false;
+	private String wsusHomePath;
+	
 	@SuppressWarnings("restriction")
 	public void handle(ActionEvent event) {
 			
@@ -36,8 +38,7 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 				logger.info("Yes was pressed ");
 				Runtime runtime = Runtime.getRuntime();
 				try {
-					path = PropertiesLoader.getInstallerPath();
-					Runtime.getRuntime().exec(path);
+					Runtime.getRuntime().exec(wsusHomePath);
 					executionStatus = true;
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -59,4 +60,8 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 		executionStatus = status;
 		
 	}
+	public String construckHomePath(String wsusHomePath) {
+		wsusHomePath = "cmd /c start cmd.exe /K " + wsusHomePath + "\\cmd\\doUpdate.cmd";
+		return wsusHomePath;
 	}
+}
