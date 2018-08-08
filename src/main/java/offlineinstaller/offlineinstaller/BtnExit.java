@@ -27,6 +27,10 @@ public class BtnExit extends Button implements EventHandler<ActionEvent> {
 		handle(event);
 	}
 
+	public BtnExit() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * @param args
 	 */

@@ -19,7 +19,6 @@ public class AutoRestart{
 			
 			logger.info("Starting the AutoRestart part");
 			
-				runtime = Runtime.getRuntime();
 				try {
 					path = PropertiesLoader.getAutoRestartPath();
 					Runtime.getRuntime().exec(path);
