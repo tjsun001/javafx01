@@ -95,6 +95,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 			
 			
 			wsusHomePath = txtFieldWSUSHome.getText() ;
+			logger.info("Eentered WSUS Home Path = " + wsusHomePath);
 			if (wsusHomePath == null || wsusHomePath.isEmpty()) {
 				txtFieldWSUSHome.setText("Please enter path to WSUS home directory");
 				break;
@@ -104,7 +105,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 				if (pathDoesExist) {
 					btnStart = new BtnStart(event, wsusHomePath);													
 				}else {
-					txtFieldWSUSHome.setText("Please enter a valid path to WSUS home directory");
+					txtFieldWSUSHome.setText("Invalid Path;Please enter a valid path to WSUS home directory");
 					break;
 				}
 			}	
@@ -138,7 +139,6 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	public boolean checkWSUSHomePath(String wsusHomePath) {
 		
 		File file = new File(wsusHomePath);
-//		File file = new File("C:\\Users\\Administrator\\Downloads\\wsus\\cmd\\DoUpdate.cmd");
 		if (file.exists()) {
 			return true;
 		}else{
