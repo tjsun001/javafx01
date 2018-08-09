@@ -19,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,6 +42,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	TextField txtFieldWSUSHome ;
 	String wsusHomePath ;
 	boolean pathDoesExist;
+	Label lblStatus;
 	public static void main(String[] args) {
 		launch(args);
 
@@ -85,6 +87,10 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		imageView.setLayoutY(30);
 		imageView.setFitHeight(150);
 		imageView.setFitWidth(150);
+		
+		lblStatus = new Label();
+		lblStatus.setLayoutX(150);
+		lblStatus.setLayoutY(350);
 				
 		Pane layout = new Pane();
 		layout.getChildren().add(btnStart);
@@ -92,9 +98,9 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		layout.getChildren().add(checkBoxAutoRestart);
 		layout.getChildren().add(txtFieldWSUSHome);
 		layout.getChildren().add(imageView);
+		layout.getChildren().add(lblStatus);
 		
 		scene = new Scene(layout,500,400);
-//		javafx.scene.image.Image image = new javafx.scene.image.Image(getClass().getResource("FPS_logo_2018.png").toExternalForm());
 		
 		primaryStage.getIcons().add(image);
 		primaryStage.setTitle("OfflineInstaller");
@@ -129,8 +135,10 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 			executionStatus = btnStart.getExecutionStatus();
 			
 			if (executionStatus) {
-//				checkAutoRestart();
-			}			
+					lblStatus.setText("Installer Executed Successfully");
+					logger.info("Offline Installer Executed Successfully");
+					checkAutoRestart();
+				}
 		
 			break;
 			

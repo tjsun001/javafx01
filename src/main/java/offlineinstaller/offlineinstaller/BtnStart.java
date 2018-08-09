@@ -26,6 +26,9 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 	public int dialogReturnValue;
 	private boolean executionStatus = false;
 	private String wsusHomePath;
+	Runtime runtime;
+	Process process;
+	int exitValue;
 	
 	@SuppressWarnings("restriction")
 	public void handle(ActionEvent event) {
@@ -35,11 +38,22 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 			if (dialogReturnValue == 0){
 				logger.info("Yes was pressed ");
 				try {
-					Runtime.getRuntime().exec(wsusHomePath);
-					executionStatus = true;
+					runtime = Runtime.getRuntime(); 
+					process = runtime.exec(wsusHomePath);
+					
+					exitValue = process.waitFor();
+					executionStatus = this.setExecutionStatus(exitValue);
+					
+					if (executionStatus) {
+						
+					}
+					
 				} catch (IOException e) {
 					e.printStackTrace();
 					executionStatus = false;
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}else { if((dialogReturnValue == 1)){
 				logger.info("Cancel was pressed " );			
@@ -53,8 +67,13 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 	public boolean getExecutionStatus() {
 		return executionStatus;
 	}
-	public void setExecutionStatus(boolean status) {
-		executionStatus = status;
+	public boolean setExecutionStatus(int status) {
+		exitValue = status;
+		if (status == 0) {
+			return true;
+		}else {
+			return false;
+		}
 		
 	}
 	public String constructHomePath(String wsusHomePath) {
