@@ -11,3 +11,6 @@ Execution Instructions
 	you can point to a directory that contains the jar file for example :
 		java -cp C:\Users\Administrator\Downloads\JavaFX01\target\JavaFX01-0.0.1-SNAPSHOT.jar offlineinstaller.offlineinstaller.Main 
 		will work if the jar file is in the directory specified by the -cp parm
+		
+Notes:
+A sample directory for the WSUS utility can be found here:C:\Users\Administrator\Downloads\wsus
