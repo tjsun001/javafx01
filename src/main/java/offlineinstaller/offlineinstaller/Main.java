@@ -52,6 +52,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	public void start(Stage primaryStage) throws Exception {
 		logger.info("this is start of start method");
 		primaryStage.setTitle("Offline Installer");
+		
 		this.primaryStage = primaryStage;
 		
 		txtFieldWSUSHome = new TextField();
@@ -88,6 +89,11 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		imageView.setFitHeight(150);
 		imageView.setFitWidth(150);
 		
+		Image image_BAH = new Image(new File("booz allen logo_black.png").toURI().toString());
+		ImageView imageView_BAH = new ImageView(image_BAH);
+		imageView_BAH.setLayoutX(300);
+		imageView_BAH.setLayoutY(370);
+		
 		lblStatus = new Label();
 		lblStatus.setLayoutX(150);
 		lblStatus.setLayoutY(350);
@@ -99,6 +105,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		layout.getChildren().add(txtFieldWSUSHome);
 		layout.getChildren().add(imageView);
 		layout.getChildren().add(lblStatus);
+		layout.getChildren().add(imageView_BAH);
 		
 		scene = new Scene(layout,500,400);
 		
