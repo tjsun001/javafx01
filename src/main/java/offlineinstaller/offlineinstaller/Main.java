@@ -151,8 +151,8 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 			
 		case "Exit":
 			logger.info("Exit button was clicked");
+			primaryStage.close();
 			
-			btnExit = new BtnExit(event,primaryStage);
 			break;
 		}
 	}

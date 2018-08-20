@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -28,6 +29,8 @@ public class MainTest extends Application implements EventHandler<ActionEvent>{
 	Scene scene;
 	Stage primaryStage;
 	int dialogReturnValue;
+	Label lblUserId;
+	Label lblPassword;
 	public static void main(String[] args) {
 		launch(args);
 
