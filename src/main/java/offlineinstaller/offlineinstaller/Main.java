@@ -13,7 +13,9 @@ import org.apache.log4j.Logger;
  */
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
@@ -23,6 +25,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 public class Main extends Application implements EventHandler<ActionEvent>{
 	final static Logger logger = Logger.getLogger(Main.class);
@@ -32,6 +36,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	 */
 	BtnStart btnStart;
 	BtnExit btnExit;
+	BtnReviewLog btnReviewLog;
 	CheckBox checkBoxAutoRestart;
 	Scene scene;
 	Stage primaryStage;
@@ -43,6 +48,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	String wsusHomePath ;
 	boolean pathDoesExist;
 	Label lblStatus;
+	String whichButton;
 	public static void main(String[] args) {
 		launch(args);
 
@@ -71,15 +77,24 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		btnStart.setLayoutY(250);
 		btnStart.setOnAction(this);
 			
+		btnReviewLog = new BtnReviewLog();
+		btnReviewLog.setText("Review Log");
+		btnReviewLog.setLayoutX(215);
+		btnReviewLog.setLayoutY(250);
+		btnReviewLog.setOnAction(this);
+		
 		btnExit = new BtnExit();
 		btnExit.setText("Exit");
-		btnExit.setLayoutX(215);
+		btnExit.setLayoutX(255);
 		btnExit.setLayoutY(250);
 		btnExit.setOnAction(this);
+		
 		
 		checkBoxAutoRestart = new CheckBox("Auto Restart");
 		checkBoxAutoRestart.setLayoutX(275);
 		checkBoxAutoRestart.setLayoutY(250);
+		checkBoxAutoRestart.setSelected(true);
+		checkBoxAutoRestart.setDisable(true);
 		
 		Image image = new Image(new File("FPS_logo_2018.png").toURI().toString());
 		ImageView imageView = new ImageView(image);
@@ -118,9 +133,19 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	
 	public void handle(ActionEvent event) {
 		
-		String whichButton = ((Button)event.getSource()).getText();
-		
+		 if ((event.getSource()) instanceof TextField){
+			 whichButton = "Start";
+		 }else {
+			 whichButton = ((Button)event.getSource()).getText();
+		 }
+				
 		switch (whichButton) {
+		
+		case "Review Log":
+		{
+//			add logic to bring up the logs
+		}
+		
 		case "Start":
 			
 			

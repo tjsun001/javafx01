@@ -86,11 +86,9 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 		
 	}
 	public List<String> constructHomePath(String wsusHomePath) {
-//		wsusHomePath = "cmd /c start cmd.exe /K " + wsusHomePath + "\\cmd\\doUpdate.cmd";
 		
 		commands.add("cmd.exe ");
 		commands.add("/C");
-//		commands.add("C:/temp/echo_script.cmd > c:/temp/out1");
 		commands.add(wsusHomePath + "/cmd/doUpdate.cmd > c:/temp/offline_install.log");
 		
 		return commands;
