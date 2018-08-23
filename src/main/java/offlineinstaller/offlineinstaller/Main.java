@@ -56,7 +56,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		this.primaryStage = primaryStage;
 		
 		txtFieldWSUSHome = new TextField();
-		txtFieldWSUSHome.setText("Please Enter path to WSUSHome  exp:(c:\\Users\\Administrator\\Downloads\\wsus)");
+		txtFieldWSUSHome.setText("c:\\Users\\Administrator\\Downloads\\wsus");
 		txtFieldWSUSHome.setPrefColumnCount(35);
 		
 		txtFieldWSUSHome.setLayoutX(60);

@@ -1,6 +1,8 @@
 package offlineinstaller.offlineinstaller;
 import java.io.IOException;
+import java.util.ArrayList;
 //import java.util.Optional;
+import java.util.List;
 
 import javax.swing.JOptionPane;
 
@@ -25,10 +27,12 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 	final static Logger logger = Logger.getLogger(BtnStart.class);
 	public int dialogReturnValue;
 	private boolean executionStatus = false;
-	private String wsusHomePath;
+	private List<String> wsusHomePath;
 	Runtime runtime;
 	Process process;
 	int exitValue;
+	final List<String> commands = new ArrayList<String>(); 
+	ProcessBuilder processBuilder;
 	
 	@SuppressWarnings("restriction")
 	public void handle(ActionEvent event) {
@@ -38,11 +42,16 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 			if (dialogReturnValue == 0){
 				logger.info("Yes was pressed ");
 				try {
-					runtime = Runtime.getRuntime(); 
-					process = runtime.exec(wsusHomePath);
+//					runtime = Runtime.getRuntime(); 
+//					process = runtime.exec(wsusHomePath);
 					
+					processBuilder = new ProcessBuilder(commands);
+					process = processBuilder.start();
+													
 					exitValue = process.waitFor();
 					executionStatus = this.setExecutionStatus(exitValue);
+					
+					
 					
 					if (executionStatus) {
 						
@@ -72,12 +81,18 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 		if (status == 0) {
 			return true;
 		}else {
-			return false;
+			return false; //"runas /profile /user:Administrator \"
 		}
 		
 	}
-	public String constructHomePath(String wsusHomePath) {
-		wsusHomePath = "cmd /c start cmd.exe /K " + wsusHomePath + "\\cmd\\doUpdate.cmd";
-		return wsusHomePath;
+	public List<String> constructHomePath(String wsusHomePath) {
+//		wsusHomePath = "cmd /c start cmd.exe /K " + wsusHomePath + "\\cmd\\doUpdate.cmd";
+		
+		commands.add("cmd.exe ");
+		commands.add("/C");
+//		commands.add("C:/temp/echo_script.cmd > c:/temp/out1");
+		commands.add(wsusHomePath + "/cmd/doUpdate.cmd > c:/temp/offline_install.log");
+		
+		return commands;
 	}
 }
