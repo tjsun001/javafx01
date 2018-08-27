@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 public class PropertiesLoader {
 	private static Properties properties;
 	public static String installerPath;
+	public static String autoRestartPath;
 	final static Logger logger = Logger.getLogger(PropertiesLoader.class);
 	static InputStream input = PropertiesLoader.class.getClassLoader().getResourceAsStream("config.properties");
 	
@@ -18,6 +19,7 @@ public class PropertiesLoader {
 		try {
 			properties.load(input);
 			installerPath = properties.getProperty("installerPath");
+			autoRestartPath = properties.getProperty("autoRestartPath");
 			return installerPath;
 		} catch (IOException  e) {
 			e.printStackTrace();
@@ -26,7 +28,6 @@ public class PropertiesLoader {
 	}
 public static String getAutoRestartPath() {
 		
-					installerPath = properties.getProperty("autoRestartPath");
-					return installerPath;
+		return autoRestartPath;
 	}
 }

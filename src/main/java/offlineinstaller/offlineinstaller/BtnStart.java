@@ -42,8 +42,6 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 			if (dialogReturnValue == 0){
 				logger.info("Yes was pressed ");
 				try {
-//					runtime = Runtime.getRuntime(); 
-//					process = runtime.exec(wsusHomePath);
 					
 					processBuilder = new ProcessBuilder(commands);
 					process = processBuilder.start();
@@ -51,10 +49,8 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 					exitValue = process.waitFor();
 					executionStatus = this.setExecutionStatus(exitValue);
 					
-					
-					
 					if (executionStatus) {
-						
+						// not sure if I need this logic but will keep as a place holder
 					}
 					
 				} catch (IOException e) {

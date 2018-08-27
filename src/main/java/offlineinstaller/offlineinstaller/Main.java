@@ -45,7 +45,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	boolean executionStatus;
 	AutoRestart autoRestart;
 	TextField txtFieldWSUSHome ;
-	String wsusHomePath ;
+	public String wsusHomePath ;
 	boolean pathDoesExist;
 	Label lblStatus;
 	String whichButton;
@@ -79,19 +79,18 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 			
 		btnReviewLog = new BtnReviewLog();
 		btnReviewLog.setText("Review Log");
-		btnReviewLog.setLayoutX(215);
+		btnReviewLog.setLayoutX(210);
 		btnReviewLog.setLayoutY(250);
 		btnReviewLog.setOnAction(this);
 		
 		btnExit = new BtnExit();
 		btnExit.setText("Exit");
-		btnExit.setLayoutX(255);
-		btnExit.setLayoutY(250);
+		btnExit.setLayoutX(440);
+		btnExit.setLayoutY(370);
 		btnExit.setOnAction(this);
 		
-		
 		checkBoxAutoRestart = new CheckBox("Auto Restart");
-		checkBoxAutoRestart.setLayoutX(275);
+		checkBoxAutoRestart.setLayoutX(300);
 		checkBoxAutoRestart.setLayoutY(250);
 		checkBoxAutoRestart.setSelected(true);
 		checkBoxAutoRestart.setDisable(true);
@@ -106,7 +105,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		
 		Image image_BAH = new Image(new File("booz allen logo_black.png").toURI().toString());
 		ImageView imageView_BAH = new ImageView(image_BAH);
-		imageView_BAH.setLayoutX(300);
+		imageView_BAH.setLayoutX(20);
 		imageView_BAH.setLayoutY(370);
 		
 		lblStatus = new Label();
@@ -120,6 +119,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		layout.getChildren().add(txtFieldWSUSHome);
 		layout.getChildren().add(imageView);
 		layout.getChildren().add(lblStatus);
+		layout.getChildren().add(btnReviewLog);
 		layout.getChildren().add(imageView_BAH);
 		
 		scene = new Scene(layout,500,400);
@@ -143,11 +143,65 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		
 		case "Review Log":
 		{
-//			add logic to bring up the logs
+			btnReviewLog = new BtnReviewLog();
+			btnReviewLog.reviewLog();
+			break;
 		}
 		
 		case "Start":
 			
+			wsusHomePath = txtFieldWSUSHome.getText() ;
+			logger.info("Eentered WSUS Home Path = " + wsusHomePath);
+			if (wsusHomePath == null || wsusHomePath.isEmpty()) {
+				txtFieldWSUSHome.setText("Please enter path to WSUS home directory");
+				break;
+			}else {
+				
+				pathDoesExist = checkWSUSHomePath(wsusHomePath); 
+				if (pathDoesExist) {
+					btnStart = new BtnStart(event, wsusHomePath);													
+				}else {
+					txtFieldWSUSHome.setText("Invalid Path;Please enter a valid path to WSUS home directory");
+					break;
+				}
+			}	
+			executionStatus = btnStart.getExecutionStatus();
+			
+			if (executionStatus) {
+					lblStatus.setText("Installer Executed Successfully");
+					logger.info("Offline Installer Executed Successfully");
+					autoRestart = new AutoRestart(wsusHomePath);
+					autoRestart.restart();
+				}
+		
+			break;
+			
+		case "Exit":
+			logger.info("Exit button was clicked");
+			primaryStage.close();
+			
+			break;
+		}
+	}
+	
+	public void handleBtnStart(ActionEvent event) {
+		
+		 if ((event.getSource()) instanceof TextField){
+			 whichButton = "Start";
+		 }else {
+			 whichButton = ((Button)event.getSource()).getText();
+		 }
+				
+		switch (whichButton) {
+		
+		case "Review Log":
+		{
+			btnReviewLog = new BtnReviewLog();
+			btnReviewLog.reviewLog();
+			break;
+		}
+		
+		case "Start":
 			
 			wsusHomePath = txtFieldWSUSHome.getText() ;
 			logger.info("Eentered WSUS Home Path = " + wsusHomePath);
@@ -181,10 +235,11 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 			break;
 		}
 	}
+
 	public void checkAutoRestart() {
 		if (checkBoxAutoRestart.isSelected()) {
 			autoRestartOption = true;
-			autoRestart = new AutoRestart(autoRestartOption);
+			autoRestart = new AutoRestart(null);
 			autoRestart.restart();
 		}
 		else {
