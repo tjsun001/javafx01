@@ -4,6 +4,7 @@ package offlineinstaller.offlineinstaller;
  */
 
 import java.io.File;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -13,20 +14,15 @@ import org.apache.log4j.Logger;
  */
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 public class Main extends Application implements EventHandler<ActionEvent>{
 	final static Logger logger = Logger.getLogger(Main.class);
@@ -43,7 +39,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	int dialogReturnValue;
 	boolean AutoRebootOption = false;
 	boolean executionStatus;
-	BtnAutoReboot AutoReboot;
+	String doAutoReboot;
 	TextField txtFieldWSUSHome ;
 	public String wsusHomePath ;
 	boolean pathDoesExist;
@@ -53,6 +49,20 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		launch(args);
 
 	}
+	
+	 @Override
+	    public void init() throws Exception {
+	        super.init();
+	        Parameters parameters = getParameters();
+	        Map<String,String> StartParameters = parameters.getNamed();
+	        logger.info("\nStartParameters -");
+	        for (Map.Entry<String,String> entry : StartParameters.entrySet()) {
+	            logger.info(entry.getKey() + " : " + entry.getValue());
+	            if (StartParameters.containsKey("doAutoReboot")) {
+	            	doAutoReboot = entry.getValue(); 
+	            }
+	        }
+	 }
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
@@ -69,8 +79,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		txtFieldWSUSHome.setLayoutY(200);
 		txtFieldWSUSHome.setOnAction(this);
 		txtFieldWSUSHome.setPrefColumnCount(35);
-		
- 		
+				
 		btnStart = new BtnStart();
 		btnStart.setText("Start");
 		btnStart.setLayoutX(150);
@@ -170,19 +179,18 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 			if (executionStatus) {
 				logger.info("Offline Installer Executed Successfully");
 				lblStatus.setText("Offline Installer Executed Successfully");
-				btnAutoReboot = new BtnAutoReboot(event, wsusHomePath);	
+				if (doAutoReboot == "true") {
+					btnAutoReboot = new BtnAutoReboot(event, wsusHomePath);
+				}
 				}else {
 					logger.info("Installer Execution Failed, please check Logs");
 					lblStatus.setText("Installer Execution Failed, please check Logs");
-					
 				}
 			break;
 			
 		case "System Reboot":
 			
-			btnAutoReboot = new BtnAutoReboot(event, wsusHomePath);
-			
-			
+			btnAutoReboot = new BtnAutoReboot(event, wsusHomePath);		
 			
 		case "Exit":
 			logger.info("Exit button was clicked");
@@ -191,9 +199,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 			break;
 		}
 	}
-	
-	public void handleBtnStart(ActionEvent event) {}
-	
+		
 	public boolean checkWSUSHomePath(String wsusHomePath) {
 		
 		File file = new File(wsusHomePath);

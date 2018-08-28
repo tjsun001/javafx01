@@ -49,7 +49,6 @@ public class BtnAutoReboot extends Button implements EventHandler<ActionEvent>{
 			logger.error("process builder in autoRetart failed");
 			e.printStackTrace();
 		}
-		// TODO Auto-generated method stub
 		
 	}
 }

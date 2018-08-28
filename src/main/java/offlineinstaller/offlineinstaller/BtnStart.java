@@ -1,7 +1,6 @@
 package offlineinstaller.offlineinstaller;
 import java.io.IOException;
 import java.util.ArrayList;
-//import java.util.Optional;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -9,7 +8,6 @@ import javax.swing.JOptionPane;
 import org.apache.log4j.Logger;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-//import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 
 public class BtnStart extends Button implements EventHandler<ActionEvent> {
@@ -42,17 +40,10 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 			if (dialogReturnValue == 0){
 				logger.info("Yes was pressed ");
 				try {
-					
 					processBuilder = new ProcessBuilder(commands);
 					process = processBuilder.start();
-													
 					exitValue = process.waitFor();
-					executionStatus = this.setExecutionStatus(exitValue);
-					
-					if (executionStatus) {
-						// not sure if I need this logic but will keep as a place holder
-					}
-					
+					this.setExecutionStatus(exitValue);
 				} catch (IOException e) {
 					e.printStackTrace();
 					executionStatus = false;
@@ -63,8 +54,7 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 			}else { if((dialogReturnValue == 1)){
 				logger.info("Cancel was pressed " );			
 			}
-			}
-				
+		}
 			if (dialogReturnValue == 1) {
 				logger.info("No was pressed " + dialogReturnValue);
 			}
@@ -72,14 +62,13 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 	public boolean getExecutionStatus() {
 		return executionStatus;
 	}
-	public boolean setExecutionStatus(int status) {
-		exitValue = status;
-		if (status == 0) {
-			return true;
-		}else {
-			return false; //"runas /profile /user:Administrator \"
-		}
+	public void setExecutionStatus(int status) {
 		
+		if (status == 0) {
+			executionStatus = true;
+		}else {
+			executionStatus = false; 
+		}		
 	}
 	public List<String> constructHomePath(String wsusHomePath) {
 		
