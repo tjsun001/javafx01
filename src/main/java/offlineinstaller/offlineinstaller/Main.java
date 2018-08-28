@@ -37,13 +37,13 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	BtnStart btnStart;
 	BtnExit btnExit;
 	BtnReviewLog btnReviewLog;
-	CheckBox checkBoxAutoRestart;
+	BtnAutoReboot btnAutoReboot;
 	Scene scene;
 	Stage primaryStage;
 	int dialogReturnValue;
-	boolean autoRestartOption = false;
+	boolean AutoRebootOption = false;
 	boolean executionStatus;
-	AutoRestart autoRestart;
+	BtnAutoReboot AutoReboot;
 	TextField txtFieldWSUSHome ;
 	public String wsusHomePath ;
 	boolean pathDoesExist;
@@ -89,11 +89,11 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		btnExit.setLayoutY(370);
 		btnExit.setOnAction(this);
 		
-		checkBoxAutoRestart = new CheckBox("Auto Restart");
-		checkBoxAutoRestart.setLayoutX(300);
-		checkBoxAutoRestart.setLayoutY(250);
-		checkBoxAutoRestart.setSelected(true);
-		checkBoxAutoRestart.setDisable(true);
+		btnAutoReboot = new BtnAutoReboot();
+		btnAutoReboot.setText("System Reboot");
+		btnAutoReboot.setLayoutX(300);
+		btnAutoReboot.setLayoutY(250);
+		btnAutoReboot.setDisable(true);
 		
 		Image image = new Image(new File("FPS_logo_2018.png").toURI().toString());
 		ImageView imageView = new ImageView(image);
@@ -110,12 +110,12 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		
 		lblStatus = new Label();
 		lblStatus.setLayoutX(150);
-		lblStatus.setLayoutY(350);
+		lblStatus.setLayoutY(320);
 				
 		Pane layout = new Pane();
 		layout.getChildren().add(btnStart);
 		layout.getChildren().add(btnExit);
-		layout.getChildren().add(checkBoxAutoRestart);
+		layout.getChildren().add(btnAutoReboot);
 		layout.getChildren().add(txtFieldWSUSHome);
 		layout.getChildren().add(imageView);
 		layout.getChildren().add(lblStatus);
@@ -168,13 +168,21 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 			executionStatus = btnStart.getExecutionStatus();
 			
 			if (executionStatus) {
-					lblStatus.setText("Installer Executed Successfully");
-					logger.info("Offline Installer Executed Successfully");
-					autoRestart = new AutoRestart(wsusHomePath);
-					autoRestart.restart();
+				logger.info("Offline Installer Executed Successfully");
+				lblStatus.setText("Offline Installer Executed Successfully");
+				btnAutoReboot = new BtnAutoReboot(event, wsusHomePath);	
+				}else {
+					logger.info("Installer Execution Failed, please check Logs");
+					lblStatus.setText("Installer Execution Failed, please check Logs");
+					
 				}
-		
 			break;
+			
+		case "System Reboot":
+			
+			btnAutoReboot = new BtnAutoReboot(event, wsusHomePath);
+			
+			
 			
 		case "Exit":
 			logger.info("Exit button was clicked");
@@ -184,70 +192,8 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		}
 	}
 	
-	public void handleBtnStart(ActionEvent event) {
-		
-		 if ((event.getSource()) instanceof TextField){
-			 whichButton = "Start";
-		 }else {
-			 whichButton = ((Button)event.getSource()).getText();
-		 }
-				
-		switch (whichButton) {
-		
-		case "Review Log":
-		{
-			btnReviewLog = new BtnReviewLog();
-			btnReviewLog.reviewLog();
-			break;
-		}
-		
-		case "Start":
-			
-			wsusHomePath = txtFieldWSUSHome.getText() ;
-			logger.info("Eentered WSUS Home Path = " + wsusHomePath);
-			if (wsusHomePath == null || wsusHomePath.isEmpty()) {
-				txtFieldWSUSHome.setText("Please enter path to WSUS home directory");
-				break;
-			}else {
-				
-				pathDoesExist = checkWSUSHomePath(wsusHomePath); 
-				if (pathDoesExist) {
-					btnStart = new BtnStart(event, wsusHomePath);													
-				}else {
-					txtFieldWSUSHome.setText("Invalid Path;Please enter a valid path to WSUS home directory");
-					break;
-				}
-			}	
-			executionStatus = btnStart.getExecutionStatus();
-			
-			if (executionStatus) {
-					lblStatus.setText("Installer Executed Successfully");
-					logger.info("Offline Installer Executed Successfully");
-					checkAutoRestart();
-				}
-		
-			break;
-			
-		case "Exit":
-			logger.info("Exit button was clicked");
-			primaryStage.close();
-			
-			break;
-		}
-	}
-
-	public void checkAutoRestart() {
-		if (checkBoxAutoRestart.isSelected()) {
-			autoRestartOption = true;
-			autoRestart = new AutoRestart(null);
-			autoRestart.restart();
-		}
-		else {
-			autoRestartOption = false;
-		}
-		logger.info("Auto Restart = " + autoRestartOption );
-		
-	}
+	public void handleBtnStart(ActionEvent event) {}
+	
 	public boolean checkWSUSHomePath(String wsusHomePath) {
 		
 		File file = new File(wsusHomePath);
