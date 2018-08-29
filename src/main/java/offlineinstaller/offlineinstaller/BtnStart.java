@@ -42,7 +42,9 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 				try {
 					processBuilder = new ProcessBuilder(commands);
 					process = processBuilder.start();
+					JOptionPane.showMessageDialog(null, "Offline install is currently running", null, JOptionPane.INFORMATION_MESSAGE);
 					exitValue = process.waitFor();
+					JOptionPane.showMessageDialog(null, "Offline install has completed", null, JOptionPane.INFORMATION_MESSAGE);
 					this.setExecutionStatus(exitValue);
 				} catch (IOException e) {
 					e.printStackTrace();

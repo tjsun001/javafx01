@@ -6,6 +6,8 @@ package offlineinstaller.offlineinstaller;
 import java.io.File;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -44,7 +46,10 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	public String wsusHomePath ;
 	boolean pathDoesExist;
 	Label lblStatus;
+	Label lblOfflineVersion;
 	String whichButton;
+	String wsusHome;
+	String OfflineVersion = "FY18 Q3 Patch Installer";
 	public static void main(String[] args) {
 		launch(args);
 
@@ -59,7 +64,12 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	        for (Map.Entry<String,String> entry : StartParameters.entrySet()) {
 	            logger.info(entry.getKey() + " : " + entry.getValue());
 	            if (StartParameters.containsKey("doAutoReboot")) {
-	            	doAutoReboot = entry.getValue(); 
+	            	doAutoReboot = StartParameters.get("doAutoReboot");
+	            	logger.info(entry.getKey() + " : " + entry.getValue());
+	            }
+	            if (StartParameters.containsKey("wsusHome")) {
+	            	wsusHomePath = StartParameters.get("wsusHome");
+	            	logger.info(entry.getKey() + " : " + wsusHomePath);
 	            }
 	        }
 	 }
@@ -67,19 +77,25 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		logger.info("this is start of start method");
-		primaryStage.setTitle("Offline Installer");
+		primaryStage.setTitle("BETSS-C Windows Patch Installer");
 		
 		this.primaryStage = primaryStage;
 		
 		txtFieldWSUSHome = new TextField();
-		txtFieldWSUSHome.setText("c:\\Users\\Administrator\\Downloads\\wsus");
+		txtFieldWSUSHome.setText(wsusHome);
 		txtFieldWSUSHome.setPrefColumnCount(35);
 		
 		txtFieldWSUSHome.setLayoutX(60);
 		txtFieldWSUSHome.setLayoutY(200);
 		txtFieldWSUSHome.setOnAction(this);
 		txtFieldWSUSHome.setPrefColumnCount(35);
-				
+		
+		lblOfflineVersion = new Label();
+		lblOfflineVersion.setText(OfflineVersion);
+		lblOfflineVersion.setStyle("-fx-font-size:14px;");
+		lblOfflineVersion.setLayoutX(180);
+		lblOfflineVersion.setLayoutY(205);
+		
 		btnStart = new BtnStart();
 		btnStart.setText("Start");
 		btnStart.setLayoutX(150);
@@ -103,6 +119,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		btnAutoReboot.setLayoutX(300);
 		btnAutoReboot.setLayoutY(250);
 		btnAutoReboot.setDisable(true);
+		btnAutoReboot.setOnAction(this);
 		
 		Image image = new Image(new File("FPS_logo_2018.png").toURI().toString());
 		ImageView imageView = new ImageView(image);
@@ -125,16 +142,17 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		layout.getChildren().add(btnStart);
 		layout.getChildren().add(btnExit);
 		layout.getChildren().add(btnAutoReboot);
-		layout.getChildren().add(txtFieldWSUSHome);
+//		layout.getChildren().add(txtFieldWSUSHome);
 		layout.getChildren().add(imageView);
 		layout.getChildren().add(lblStatus);
 		layout.getChildren().add(btnReviewLog);
 		layout.getChildren().add(imageView_BAH);
+		layout.getChildren().add(lblOfflineVersion);
 		
 		scene = new Scene(layout,500,400);
 		
 		primaryStage.getIcons().add(image);
-		primaryStage.setTitle("OfflineInstaller");
+		primaryStage.setTitle("BETSS-C Windows Patch Installer");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		
@@ -159,13 +177,12 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		
 		case "Start":
 			
-			wsusHomePath = txtFieldWSUSHome.getText() ;
-			logger.info("Eentered WSUS Home Path = " + wsusHomePath);
+//			wsusHomePath = txtFieldWSUSHome.getText() ;
+			logger.info("Entered WSUS Home Path = " + wsusHomePath);
 			if (wsusHomePath == null || wsusHomePath.isEmpty()) {
 				txtFieldWSUSHome.setText("Please enter path to WSUS home directory");
 				break;
-			}else {
-				
+			}else {				
 				pathDoesExist = checkWSUSHomePath(wsusHomePath); 
 				if (pathDoesExist) {
 					btnStart = new BtnStart(event, wsusHomePath);													
@@ -179,8 +196,19 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 			if (executionStatus) {
 				logger.info("Offline Installer Executed Successfully");
 				lblStatus.setText("Offline Installer Executed Successfully");
-				if (doAutoReboot == "true") {
+				logger.info("autoreboot = " +  doAutoReboot);
+				if ((doAutoReboot != null) && (doAutoReboot.equals("true")) ) {
+					JOptionPane.showMessageDialog(null, "Sytem will Reboot in 5 seconds after closing this message");
+					Thread thread = new Thread();
+					try {
+						Thread.sleep(5000);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}					
 					btnAutoReboot = new BtnAutoReboot(event, wsusHomePath);
+				}else {
+					btnAutoReboot.setDisable(false);
 				}
 				}else {
 					logger.info("Installer Execution Failed, please check Logs");
@@ -190,7 +218,8 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 			
 		case "System Reboot":
 			
-			btnAutoReboot = new BtnAutoReboot(event, wsusHomePath);		
+			btnAutoReboot = new BtnAutoReboot(event, wsusHomePath);	
+			break;
 			
 		case "Exit":
 			logger.info("Exit button was clicked");
