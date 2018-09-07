@@ -4,7 +4,7 @@
   <artifactId>JavaFX01</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>JavaFX01-0.0.1-SNAPSHOT</name>
-  
+  <packaging>jar</packaging>
   <properties>
 		<jdk.version>1.7</jdk.version>
   </properties>
@@ -28,33 +28,11 @@
 	  <scope>system</scope>
 	  <systemPath>C:/Program Files/Java/jdk1.7.0_80/jre/lib/jfxrt.jar</systemPath>
 	</dependency>
-	
   </dependencies>
+  
   <build>
-    <plugins>
-      <!-- Maven Shade Plugin -->
-		<plugin>
-		  <groupId>org.apache.maven.plugins</groupId>
-		  <artifactId>maven-shade-plugin</artifactId>
-		  <version>2.3</version>
-		  <executions>
-		     <!-- Run shade goal on package phase -->
-		    <execution>
-			<phase>package</phase>
-			<goals>
-				<goal>shade</goal>
-			</goals>
-			<configuration>
-			  <transformers>
-				<!-- add Main-Class to manifest file -->
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-					<mainClass>offlineinstaller.offineinstaller.Main</mainClass>
-				</transformer>
-			  </transformers>
-			</configuration>
-		      </execution>
-		  </executions>
-		</plugin>
+  	<finalName>offlineInstaller</finalName>
+    <plugins>    
 		<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -64,7 +42,39 @@
 					<target>${jdk.version}</target>
 				</configuration>
 			</plugin>
+		<plugin>
+		
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-jar-plugin</artifactId>
+	 <version>2.4</version> 
+	 	<configuration>
+	  <archive>
+	    <manifest>
+	    <addClasspath>true</addClasspath>					
+		<mainClass>offlineinstaller.offlineinstaller.Main</mainClass>
+		<classpathPrefix>dependency-jars/</classpathPrefix>
+		</manifest>
+		</archive>
+	</configuration>
+    </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>2.5.1</version>
+				<executions>
+				  <execution>
+					<id>copy-dependencies</id>
+					<phase>package</phase>
+					<goals>
+						<goal>copy-dependencies</goal>
+					</goals>
+					<configuration>					 
+					  <includeScope>runtime</includeScope>
+					  <outputDirectory>${project.build.directory}/dependency-jars/</outputDirectory>
+					</configuration>
+				  </execution>
+				</executions>
+			</plugin>
     </plugins>
   </build>
-  
 </project>
