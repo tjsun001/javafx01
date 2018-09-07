@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 
+
 public class BtnStart extends Button implements EventHandler<ActionEvent> {
 	
 	public BtnStart(ActionEvent event, String wsusPath)
@@ -40,11 +41,30 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 			if (dialogReturnValue == 0){
 				logger.info("Yes was pressed ");
 				try {
+					
 					processBuilder = new ProcessBuilder(commands);
 					process = processBuilder.start();
-					JOptionPane.showMessageDialog(null, "Offline install is currently running", null, JOptionPane.INFORMATION_MESSAGE);
+					Thread runningMsgThread = new Thread() {
+					    public void run() {
+					        System.out.println("blah");
+					        JOptionPane.showMessageDialog(null, "Offline install is currently running");
+					    }
+					};
+					runningMsgThread.start();
+					runningMsgThread.sleep(10000);
 					exitValue = process.waitFor();
-					JOptionPane.showMessageDialog(null, "Offline install has completed", null, JOptionPane.INFORMATION_MESSAGE);
+					runningMsgThread.interrupt();
+					
+					Thread completedMsgThread = new Thread() {
+					    public void run() {
+					        System.out.println("blah");
+					        JOptionPane.showMessageDialog(null, "Offline install has completed", null, JOptionPane.INFORMATION_MESSAGE);
+					    }
+					};
+					completedMsgThread.start();
+					Thread.sleep(10000);
+					completedMsgThread.interrupt();
+					
 					this.setExecutionStatus(exitValue);
 				} catch (IOException e) {
 					e.printStackTrace();

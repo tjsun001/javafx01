@@ -142,7 +142,6 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		layout.getChildren().add(btnStart);
 		layout.getChildren().add(btnExit);
 		layout.getChildren().add(btnAutoReboot);
-//		layout.getChildren().add(txtFieldWSUSHome);
 		layout.getChildren().add(imageView);
 		layout.getChildren().add(lblStatus);
 		layout.getChildren().add(btnReviewLog);
@@ -177,7 +176,6 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		
 		case "Start":
 			
-//			wsusHomePath = txtFieldWSUSHome.getText() ;
 			logger.info("Entered WSUS Home Path = " + wsusHomePath);
 			if (wsusHomePath == null || wsusHomePath.isEmpty()) {
 				txtFieldWSUSHome.setText("Please enter path to WSUS home directory");
@@ -198,22 +196,27 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 				lblStatus.setText("Offline Installer Executed Successfully");
 				logger.info("autoreboot = " +  doAutoReboot);
 				if ((doAutoReboot != null) && (doAutoReboot.equals("true")) ) {
-					JOptionPane.showMessageDialog(null, "Sytem will Reboot in 5 seconds after closing this message");
-					Thread thread = new Thread();
-					try {
-						Thread.sleep(5000);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}					
-					btnAutoReboot = new BtnAutoReboot(event, wsusHomePath);
-				}else {
+					Thread rebootingMsgThread = new Thread() {
+						public void run() {
+							JOptionPane.showMessageDialog(null, "Sytem will Reboot in 10 seconds");
+						}
+						};
+						try {
+							rebootingMsgThread.start();
+							rebootingMsgThread.sleep(10000);
+							rebootingMsgThread.interrupt();
+							btnAutoReboot = new BtnAutoReboot(event, wsusHomePath);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						}				
 					btnAutoReboot.setDisable(false);
-				}
 				}else {
 					logger.info("Installer Execution Failed, please check Logs");
 					lblStatus.setText("Installer Execution Failed, please check Logs");
 				}
+		
 			break;
 			
 		case "System Reboot":
