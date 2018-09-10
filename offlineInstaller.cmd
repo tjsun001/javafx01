@@ -1,4 +1,4 @@
-@echo off
+@echo on
 
 :: Get ADMIN Privs
 :-------------------------------------
@@ -21,4 +21,5 @@ if '%errorlevel%' == '0' (
 :-------------------------------------
 :: End Get ADMIN Privs
 
-java  -cp JavaFX01-0.0.1-SNAPSHOT.jar;jfxrt.jar;FPS_logo_2018.png offlineinstaller.offlineinstaller.Main --doAutoReboot=true --wsusHome= --wsusHome=c:\Users\Administrator\Downloads\wsus
+rem java  -cp offlineinstaller.jar;jfxrt.jar;FPS_logo_2018.png offlineinstaller.offlineinstaller.Main --doAutoReboot=true --wsusHome= --wsusHome=c:\Users\Administrator\Downloads\wsus
+java  -cp offlineinstaller.jar;jfxrt.jar;FPS_logo_2018.png offlineinstaller.offlineinstaller.Main --doAutoReboot=true --wsusHome= --wsusHome=c:\Users\Administrator\Downloads\wsus

@@ -46,7 +46,6 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 					process = processBuilder.start();
 					Thread runningMsgThread = new Thread() {
 					    public void run() {
-					        System.out.println("blah");
 					        JOptionPane.showMessageDialog(null, "Offline install is currently running");
 					    }
 					};
@@ -57,7 +56,6 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 					
 					Thread completedMsgThread = new Thread() {
 					    public void run() {
-					        System.out.println("blah");
 					        JOptionPane.showMessageDialog(null, "Offline install has completed", null, JOptionPane.INFORMATION_MESSAGE);
 					    }
 					};
@@ -97,6 +95,14 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 		commands.add("cmd.exe ");
 		commands.add("/C");
 		commands.add(wsusHomePath + "/cmd/doUpdate.cmd > c:/temp/offline_install.log");
+		
+		return commands;
+	}
+public List<String> unzipPackage(String temp) {
+		
+		commands.add("cmd.exe ");
+		commands.add("/C");
+		commands.add(temp + "offlineInstallerUnzipPackage.cmd > c:/temp/offline_install.log");
 		
 		return commands;
 	}
