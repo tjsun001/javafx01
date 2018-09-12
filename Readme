@@ -2,15 +2,33 @@ Build Instructions
 
 	Navigate to C:\Users\Administrator\Downloads\JavaFX01
 	mvn clean package 
-	look for JavaFX01-0.0.1-SNAPSHOT.jar in C:\Users\Administrator\Downloads\JavaFX01\target\
+	look for offlineinstaller.jar in C:\Users\Administrator\Downloads\JavaFX01\target\
 
 
-Execution Instructions
-	run this command: java -cp JavaFX01-0.0.1-SNAPSHOT.jar;jfxrt.jar;FPS_logo_2018.png offlineinstaller.offlineinstaller.Main
-	make sure the jar file is in the same directory that you run the offlineinstaller.offlineinstaller.Main command or make sure
-	you can point to a directory that contains the jar file for example :
-		java -cp C:\Users\Administrator\Downloads\JavaFX01\target\JavaFX01-0.0.1-SNAPSHOT.jar offlineinstaller.offlineinstaller.Main 
-		will work if the jar file is in the directory specified by the -cp parm
+Run Instructions:
+
+	These artifacts are needed for a deployment:
+		1.	offlineInstaller.cmd
+		2.	cd_script.cmd
+		3.	offlineinstaller.jar
+		4.	jfxrt.jar
+		5.	FPS_logo_2018.icon
+		6.	FPS_logo_2018.png
+		7.	WSUS lib
+	
+	A.	Copy these artifacts to a location (DVD drive for example)
+	B. 	Execute offlineInstaller.cmd
+	C.	Done
+	
 		
 Notes:
-A sample directory for the WSUS utility can be found here:C:\Users\Administrator\Downloads\wsus
+	make sure the jar file is in the same directory that you run the offlineinstaller.offlineinstaller.Main command or make sure
+	you can point to a directory that contains the jar file.
+		For example :
+		java -cp C:\Users\Administrator\Downloads\JavaFX01\target\JavaFX01-0.0.1-SNAPSHOT.jar offlineinstaller.offlineinstaller.Main 
+		will work if the jar file is in the directory specified by the -cp parm
+
+	A sample directory for the WSUS utility can be found here:C:\Users\Administrator\Downloads\wsus
+
+	
+	

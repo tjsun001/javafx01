@@ -1,0 +1,17 @@
+Run Instructions:
+
+	These artifacts are needed for a deployment:
+		1.	offlineInstaller.cmd
+		2.	cd_script.cmd
+		3.	offlineinstaller.jar
+		4.	jfxrt.jar
+		5.	FPS_logo_2018.icon
+		6.	FPS_logo_2018.png
+		7.	WSUS lib
+	
+	A.	Copy these artifacts to a location (DVD drive for example)
+	B. 	Execute offlineInstaller.cmd
+	C.	Done
+
+	
+	
