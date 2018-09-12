@@ -39,7 +39,7 @@ public class BtnAutoReboot extends Button implements EventHandler<ActionEvent>{
 		
 		commands.add("cmd.exe ");
 		commands.add("/C");
-		commands.add(wsusHomePath + "/cmd/RecallStub.cmd");
+		commands.add("/cmd/RecallStub.cmd");
 		
 		
 		processBuilder = new ProcessBuilder(commands);

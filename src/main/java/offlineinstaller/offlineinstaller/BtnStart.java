@@ -94,15 +94,9 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 		
 		commands.add("cmd.exe ");
 		commands.add("/C");
-		commands.add(wsusHomePath + "/cmd/doUpdate.cmd > c:/temp/offline_install.log");
-		
-		return commands;
-	}
-public List<String> unzipPackage(String temp) {
-		
-		commands.add("cmd.exe ");
-		commands.add("/C");
-		commands.add(temp + "offlineInstallerUnzipPackage.cmd > c:/temp/offline_install.log");
+//		commands.add("Start");
+		commands.add("cd_script.cmd ");
+//		commands.add("wsus/cmd/doUpdate.cmd > offline_install.log");
 		
 		return commands;
 	}

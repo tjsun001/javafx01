@@ -172,8 +172,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 			btnReviewLog = new BtnReviewLog();
 			btnReviewLog.reviewLog();
 			break;
-		}
-		
+		}		
 		case "Start":
 			
 			logger.info("Entered WSUS Home Path = " + wsusHomePath);
