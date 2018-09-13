@@ -3,6 +3,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import org.apache.log4j.Logger;
 
 import javafx.event.ActionEvent;
@@ -37,10 +39,25 @@ public class BtnAutoReboot extends Button implements EventHandler<ActionEvent>{
 	public void handle(ActionEvent arg0) {
 		logger.info("Starting the AutoReboot");
 		
+		Thread rebootingMsgThread = new Thread() {
+		    public void run() {
+		        JOptionPane.showMessageDialog(null, "AutoReboot starting in 10 seconds");
+		    }
+		};
+		rebootingMsgThread.start();
+		try {
+			rebootingMsgThread.sleep(10000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		rebootingMsgThread.interrupt();
+		
 		commands.add("cmd.exe ");
 		commands.add("/C");
-		commands.add("/cmd/RecallStub.cmd");
-		
+		commands.add("start ");
+		commands.add(wsusHomePath + "\\cmd\\RecallStub.cmd");
+		logger.info("commands = " + commands.toString());
 		
 		processBuilder = new ProcessBuilder(commands);
 		try {

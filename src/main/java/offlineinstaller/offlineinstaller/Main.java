@@ -49,6 +49,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	Label lblOfflineVersion;
 	String whichButton;
 	String wsusHome;
+	String wsusLogHome;
 	String OfflineVersion = "FY18 Q3 Patch Installer";
 	public static void main(String[] args) {
 		launch(args);
@@ -70,6 +71,10 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 	            if (StartParameters.containsKey("wsusHome")) {
 	            	wsusHomePath = StartParameters.get("wsusHome");
 	            	logger.info(entry.getKey() + " : " + wsusHomePath);
+	            }
+	            if (StartParameters.containsKey("wsusLogHome")) {
+	            	wsusLogHome = StartParameters.get("wsusLogHome");
+	            	logger.info(entry.getKey() + " : " + "wsusLogHome");
 	            }
 	        }
 	 }
@@ -170,7 +175,7 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 		case "Review Log":
 		{
 			btnReviewLog = new BtnReviewLog();
-			btnReviewLog.reviewLog();
+			btnReviewLog.reviewLog(wsusLogHome);
 			break;
 		}		
 		case "Start":

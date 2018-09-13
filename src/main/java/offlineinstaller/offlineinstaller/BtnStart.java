@@ -50,7 +50,7 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 					    }
 					};
 					runningMsgThread.start();
-					runningMsgThread.sleep(10000);
+//					runningMsgThread.sleep(10000);
 					exitValue = process.waitFor();
 					runningMsgThread.interrupt();
 					
@@ -92,11 +92,9 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 	}
 	public List<String> constructHomePath(String wsusHomePath) {
 		
-		commands.add("cmd.exe ");
+		commands.add("cmd ");
 		commands.add("/C");
-//		commands.add("Start");
-		commands.add("cd_script.cmd ");
-//		commands.add("wsus/cmd/doUpdate.cmd > offline_install.log");
+		commands.add("start /wait cd_script.cmd");
 		
 		return commands;
 	}

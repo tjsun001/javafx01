@@ -1,5 +1,8 @@
 rem cd \wsus\cmd
-CD C:\Users\Administrator\Downloads\wsus\cmd 
-doUpdate.cmd > log_offline_install.log01
-
+dir
+cd cmd
+doUpdate.cmd 
+rem timeout 10
+rem 
 rem cd ..\wsus\cmd\
+exit 

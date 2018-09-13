@@ -17,13 +17,13 @@ public class BtnReviewLog extends Button {
 		// TODO Auto-generated method stub
 
 	}
-public void reviewLog() {
+public void reviewLog(String wsusLogHome) {
 
 	logger.info("ReviewLog button was clicked");
 		try {
 			commands.add("cmd.exe ");
 			commands.add("/C");
-			commands.add("%windir%\\system32\\notepad.exe c:/temp/offline_install.log");
+			commands.add("%windir%\\system32\\notepad.exe " + wsusLogHome);
 			
 			processBuilder = new ProcessBuilder(commands);
 			process = processBuilder.start();
