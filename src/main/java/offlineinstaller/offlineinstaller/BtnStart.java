@@ -50,7 +50,6 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 					    }
 					};
 					runningMsgThread.start();
-//					runningMsgThread.sleep(10000);
 					exitValue = process.waitFor();
 					runningMsgThread.interrupt();
 					
