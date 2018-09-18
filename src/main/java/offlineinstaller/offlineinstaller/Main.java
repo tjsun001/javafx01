@@ -200,20 +200,21 @@ public class Main extends Application implements EventHandler<ActionEvent>{
 				lblStatus.setText("Offline Installer Executed Successfully");
 				logger.info("autoreboot = " +  doAutoReboot);
 				if ((doAutoReboot != null) && (doAutoReboot.equals("true")) ) {
-					Thread rebootingMsgThread = new Thread() {
-						public void run() {
-							JOptionPane.showMessageDialog(null, "Sytem will Reboot in 10 seconds");
-						}
-						};
-						try {
-							rebootingMsgThread.start();
-							rebootingMsgThread.sleep(10000);
-							rebootingMsgThread.interrupt();
+//					Thread rebootingMsgThread = new Thread() 
+//					{
+//						public void run() {
+//							JOptionPane.showMessageDialog(null, "Sytem will Reboot in 10 seconds");
+//						}
+//						};
+//						try {
+//							rebootingMsgThread.start();
+//							rebootingMsgThread.sleep(10000);
+//							rebootingMsgThread.interrupt();
 							btnAutoReboot = new BtnAutoReboot(event, wsusHomePath);
-						} catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+//						} catch (InterruptedException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
 						}				
 					btnAutoReboot.setDisable(false);
 				}else {
