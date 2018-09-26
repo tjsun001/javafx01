@@ -32,6 +32,7 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 	int exitValue;
 	final List<String> commands = new ArrayList<String>(); 
 	ProcessBuilder processBuilder;
+	Thread completedMsgThread;
 	
 	@SuppressWarnings("restriction")
 	public void handle(ActionEvent event) {
@@ -44,31 +45,31 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 					
 					processBuilder = new ProcessBuilder(commands);
 					process = processBuilder.start();
-					Thread runningMsgThread = new Thread() {
+					final Thread runningMsgThread = new Thread() {
 					    public void run() {
 					        JOptionPane.showMessageDialog(null, "Offline install is currently running");
 					    }
 					};
+					
 					runningMsgThread.start();
-					exitValue = process.waitFor();
-					runningMsgThread.interrupt();
 					
-					Thread completedMsgThread = new Thread() {
-					    public void run() {
-					        JOptionPane.showMessageDialog(null, "Offline install has completed", null, JOptionPane.INFORMATION_MESSAGE);
-					    }
+					Thread mainProcess = new Thread() {
+						public void run() {
+							try {
+								exitValue = process.waitFor();
+								runningMsgThread.interrupt();
+								 completedMsgThread();
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
 					};
-					completedMsgThread.start();
-					Thread.sleep(10000);
-					completedMsgThread.interrupt();
-					
+					mainProcess.start();					
 					this.setExecutionStatus(exitValue);
 				} catch (IOException e) {
 					e.printStackTrace();
 					executionStatus = false;
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
 				}
 			}else { if((dialogReturnValue == 1)){
 				logger.info("Cancel was pressed " );			
@@ -96,5 +97,21 @@ public class BtnStart extends Button implements EventHandler<ActionEvent> {
 		commands.add("start /wait cd_script.cmd");
 		
 		return commands;
+	}
+	public void completedMsgThread() {
+		Thread completedMsgThread = new Thread() {
+	    public void run() {
+	        JOptionPane.showMessageDialog(null, "Offline install has completed", null, JOptionPane.INFORMATION_MESSAGE);
+	    }
+	};
+	completedMsgThread.start();
+	try {
+		Thread.sleep(10000);
+	} catch (InterruptedException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	completedMsgThread.interrupt();
+		
 	}
 }

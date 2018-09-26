@@ -21,4 +21,6 @@ if '%errorlevel%' == '0' (
 :-------------------------------------
 :: End Get ADMIN Privs
 
-java  -cp offlineinstaller.jar;jfxrt.jar;FPS_logo_2018.png offlineinstaller.offlineinstaller.Main --doAutoReboot=true --wsusHome=\wsus --wsusLogHome=c:\temp
+start /min OfflineInstaller.cmd
+
+
